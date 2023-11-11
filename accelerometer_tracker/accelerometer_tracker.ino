@@ -8,7 +8,7 @@
 
 MMA7660 accelemeter;
 
-#define SMP_RATE 2
+#define SMP_RATE 4
 #define DELTA_T 1/SMP_RATE
 
 float x  = 0;
