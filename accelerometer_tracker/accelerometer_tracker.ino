@@ -25,7 +25,6 @@ void setup() {
 
 void loop() {
     int8_t x, y, z;
-    float ax, ay, az;
     accelemeter.getXYZ(&x, &y, &z);
 
     Serial.print(x);
