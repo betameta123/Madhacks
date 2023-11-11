@@ -1,6 +1,10 @@
 {
   "dependencies": {
     "@serialport/parser-readline": "^12.0.0",
+<<<<<<< HEAD
+=======
+    "cors-anywhere": "^0.4.4",
+>>>>>>> 81c1d8d27b7de0339ee52cd380af60b3442f8e50
     "express": "^4.18.2",
     "serialport": "^12.0.0"
   },
