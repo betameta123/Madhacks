@@ -13,6 +13,7 @@ var prevTime = time;
 
 function init() {
     canvas = document.getElementById('can');
+    link = document.getElementById('link');
     ctx = canvas.getContext("2d");
     w = canvas.width;
     h = canvas.height;
@@ -41,6 +42,8 @@ function init() {
 
     function draw(input) {
 
+        console.log(input);
+
         currX = input.x
         currY = input.y
         currZ = input.z
@@ -55,6 +58,8 @@ function init() {
         prevY = currY;
         prevZ = currZ;
 
+        link.href = save();
+
         fetchData();
 
     }
@@ -68,9 +73,10 @@ function init() {
     }
     
     function save() {
-        document.getElementById("canvasimg").style.border = "2px solid";
+        
         var dataURL = canvas.toDataURL();
-        document.getElementById("canvasimg").src = dataURL;
-        document.getElementById("canvasimg").style.display = "inline";
+        console.log(dataURL);
+        return dataURL;
+       
     }
     
