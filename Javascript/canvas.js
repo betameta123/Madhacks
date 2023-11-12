@@ -20,6 +20,22 @@ var x = "black",
     y = 2;
 
 function init() {
+
+    fetch("http://localhost:3000/http://localhost:8080")
+        .then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP error: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((json) => initialize(json))
+        .catch((err) => console.error(`Fetch problem: ${err.message}`));
+
+    
+    function initialize(json) {
+        console.log(json);
+    }
+
     canvas = document.getElementById('can');
     ctx = canvas.getContext("2d");
     w = canvas.width;
