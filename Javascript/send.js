@@ -3,8 +3,9 @@ const host = 'localhost';
 const port = 8080
 
 const ROCHELLE_PORT = '/dev/cu.SLAB_USBtoUART'
+const ROCHELLE_NEW_PORT = '/dev/cu.usbmodem1412401'
 const RACHELLE_PORT = '/dev/cu.usbserial-0001'
-const PORT = ROCHELLE_PORT
+const PORT = ROCHELLE_NEW_PORT
 
 const { SerialPort } = require('serialport')
 const { ReadlineParser } = require('@serialport/parser-readline')
@@ -17,6 +18,7 @@ const parser = arduinoPort.pipe(new ReadlineParser({ delimiter: '\r\n' }))
 parser.on('data', dataToJson)
 
 function dataToJson(data) {
+    console.log(data);
     var inputArray = data.split(",");
     ret.x = inputArray[0]
     ret.y = inputArray[1]

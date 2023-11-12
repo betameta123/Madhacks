@@ -24,6 +24,7 @@ function init() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.scale(1,-1);
     ctx.translate(w/2, -h/2);
+    ctx.lineWidth = 3;
 
     function second(checked) {
         if(checked == false) {
@@ -147,8 +148,8 @@ function init() {
             
         }
         function twoD() {
+            ctx.fillRect(-w, -h, 2*w, 2*h);
             function axes() {
-                ctx.fillRect(-w, -h, 2*w, 2*h);
                 ctx.strokeStyle="black";
                 ctx.beginPath();
                 // Axes
@@ -175,10 +176,12 @@ function init() {
                     })
                     .then((json) => draw(json))
                     .catch((err) => console.error(`Fetch problem: ${err.message}`));
+                  
             }
               
     
             function draw(input) {
+                console.log(input);
                 currX = input.x / 10
                 currY = input.y / 10
                 var d = input.draw;
@@ -196,9 +199,9 @@ function init() {
                 }
                 fetchData();
             }
-            axes();
-            fetchData();     
-        }
+            fetchData();
+            }   
+        
     }
     view.addEventListener('change', function() {
         if (this.checked) {
@@ -223,7 +226,6 @@ function init() {
     }
     
     function save() {  
-        console.log('hi');
         var dataURL = canvas.toDataURL();
         return dataURL;
        
