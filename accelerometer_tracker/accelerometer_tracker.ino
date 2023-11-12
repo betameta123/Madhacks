@@ -16,21 +16,40 @@ float y = 0;
 float z = 0;
 float v = 0;
 
+const int buttonPin = 2;
+int buttonState = 0;
 
 void setup() {
     accelemeter.init();
     accelemeter.setSampleRate(SMP_RATE);
     Serial.begin(9600);
+    
+    pinMode(buttonPin, INPUT);
+
+    
 }
 
 void loop() {
+  
     int8_t x, y, z;
+    int b;
+    float ax, ay, az;
     accelemeter.getXYZ(&x, &y, &z);
 
+    buttonState = digitalRead(buttonPin);
+    if (buttonState == HIGH) {
+      b = 1;
+    }
+    else {
+      b = 0;
+    }
+    
     Serial.print(x);
     Serial.print(",");
     Serial.print(y);
     Serial.print(",");
     Serial.print(z);
+    Serial.print(",");
+    Serial.print(b);
     Serial.println("");
 }
