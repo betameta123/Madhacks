@@ -15,7 +15,7 @@ void movement_end_check(int32_t a_x, int32_t a_y) {
   else
     countx = 0;
   
-  if(countx >= 25)
+  if(countx >= 15)
     v_x0 = 0;
 
   if (a_x == 0)
@@ -23,7 +23,7 @@ void movement_end_check(int32_t a_x, int32_t a_y) {
   else
     county = 0;
 
-  if(county >= 25) {
+  if(county >= 15) {
     v_y0 = 0;
   }
 }
@@ -36,7 +36,6 @@ void accel_setup() {
     sstatex += ax;
     sstatey += ay;
     count1++;
-    Serial.println(count1);
   } while (count1 != 0x0400);
 
   sstatex >>= 10;
@@ -59,10 +58,10 @@ void loop() {
     s_ax += ax;
     s_ay += ay;
     counter++;
-  } while (counter != 0x40);
+  } while (counter != 0x20);
 
-  s_ax >>= 6;
-  s_ay >>= 6;
+  s_ax >>= 5;
+  s_ay >>= 5;
   s_ax -= sstatex;
   s_ay -= sstatey;
 

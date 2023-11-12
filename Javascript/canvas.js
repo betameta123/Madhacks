@@ -6,7 +6,7 @@ var canvas, ctx, flag = false,
         dot_flag = false;
 
 var x = "black",
-    y = 2;
+    y = 4;
 
 var time = Date.now();
 var prevTime = time; 
@@ -14,7 +14,6 @@ var prevTime = time;
 
 function init() {
     var view = document.querySelector("input[name=checkbox]");
-    console.log(view);
     canvas = document.getElementById('can');
     link = document.getElementById('link');
     ctx = canvas.getContext("2d");
@@ -33,12 +32,11 @@ function init() {
             threeD();
         }
         function threeD() {
-            console.log('hi');
-            ctx.fillStyle = "white";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            console.log("hi");
+            ctx.fillStyle = "green";
+            ctx.fillRect(-w/2, h/2, canvas.width, canvas.height);
         }
         function twoD() {
-            console.log('2D');
             function axes() {
                 ctx.strokeStyle="black";
                 ctx.beginPath();
@@ -70,20 +68,20 @@ function init() {
             function draw(input) {
                 currX = input.x / 10
                 currY = input.y / 10
-                //currZ = input.z 
-                console.log(currX + " " + currY);
+                var draw = input.draw;
+                console.log(currX + " " + currY + " " + draw);
 
-                ctx.beginPath();
-                ctx.moveTo(prevX, prevY);
-                ctx.lineTo(currX, currY);
-                ctx.stroke();
-                ctx.closePath();
+                if(draw == 1) {
+                    ctx.beginPath();
+                    ctx.moveTo(prevX, prevY);
+                    ctx.lineTo(currX, currY);
+                    ctx.stroke();
+                    ctx.closePath();
+                    prevX = currX;
+                    prevY = currY;
+                    link.href = save();
+                }
 
-                prevX = currX;
-                prevY = currY;
-                //prevZ = currZ;
-
-                link.href = save();
                 fetchData();
             }
             axes();
@@ -93,10 +91,12 @@ function init() {
     view.addEventListener('change', function() {
         if (this.checked) {
           console.log("Checkbox is checked..");
+          second(true);
         } else {
           console.log("Checkbox is not checked..");
+          second(false);
         }
-      });
+    });
     second(view.checked);
 }
     function erase() {
