@@ -3,11 +3,15 @@ import pyautogui as pag
 import time
 
 # CHANGE THIS TO THE CORRECT ONE! =)
-ser_address = '/dev/tty.usbserial-0001'
+# ser_address = '/dev/tty.usbserial-0001'
+ser_address = '/dev/tty.usbmodem1101'
 # ser_address = '/dev/tty.usbmodem11101'
 # ser_address = '/dev/tty.usbmodem112401'
 # ser_address = '/dev/ttyACM0'
-scale = 0.3
+scale = 1
+
+def calcMove(n, offset, scale):
+    return (n - offset) * scale
 
 ser = Serial(ser_address)
 pag.FAILSAFE = False
@@ -17,29 +21,53 @@ print(wd, ht)
 # x, y = 128, 128
 pag.moveTo(wd/2, ht/2)
 
+cnt = 0
+sum_x = 0
+sum_y = 0
+(off_x, off_y, off_z) = (0, 0, 0)
 while True:
+    if cnt == 1e3: 
+        off_x = sum_x / 1e3
+        off_y = sum_y / 1e3
+        print(sum_x / 1e3, sum_y / 1e3)
+        break
     try: 
         (off_x, off_y, off_z) = map(int, ser.readline().decode().split(','))
         assert off_x != 0 and off_y != 0
         print(off_x, off_y, off_z)
-        break
+        cnt += 1
+        sum_x += off_x
+        sum_y += off_y
     except:
         continue
+
+
+pag.moveTo(wd / 2, ht / 2)
+
+time.sleep(1)
+
+# cnt = 0
+# sum_x = 0
+# sum_y = 0
 
 buffer = ''
 last_line = ''
 
-time.sleep(1)
 while True:
-    buffer = buffer + ser.read(ser.in_waiting).decode()
+    # if cnt == 1e3: break
+    new_buffer = buffer + ser.read(ser.in_waiting).decode()
     # print(buffer)
     lines = buffer.split('\n')
-    if lines:
-        last_line = lines[-1]
+
+    last_line = lines[-1]
     try:
-        (d_x, d_y, d_z) = map(int, last_line.split(','))
+        (x, y, z) = map(int, last_line.split(','))
     except:
         continue
-    pag.moveRel((d_x - off_x) / 128 * scale * wd/2, (d_y - off_y) / 128 * scale * ht/2, _pause = False)
-    print((d_x - off_x) / 128 * scale * wd/2, (d_y - off_y) / 128 * scale * ht/2)
-    # print(d_x, d_y, d_z)
+    pag.moveRel(-calcMove(x, off_x, scale), calcMove(y, off_y, scale), _pause = False)
+    print(-calcMove(x, off_x, scale), calcMove(y, off_y, scale))
+    # cnt += 1
+    # sum_x += off_x - x
+    # sum_y += off_y - y
+
+# print(sum_x / 1e3, sum_y / 1e3)
