@@ -49,6 +49,20 @@ body {
     -ms-user-select: none;
     user-select: none;
   }
+
+  .slideContainer {
+    display: inline-block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    color: white;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
   
   /* Hide the browser's default checkbox */
   .container input {
@@ -102,3 +116,5 @@ body {
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
   }
+
+  
