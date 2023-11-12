@@ -9,60 +9,95 @@ var x = "black",
     y = 2;
 
 var time = Date.now();
-var prevTime = time;
+var prevTime = time; 
+
 
 function init() {
+    var view = document.querySelector("input[name=checkbox]");
+    console.log(view);
     canvas = document.getElementById('can');
     link = document.getElementById('link');
     ctx = canvas.getContext("2d");
     w = canvas.width;
     h = canvas.height;
-    ctx.translate(200, 200);
-    ctx.translate(0.1, 0.1)
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.scale(1,-1);
+    ctx.translate(w/2, -h/2);
 
-    var resultFound = false;
-
-    function fetchData() {
-        fetch("http://localhost:3000/http://localhost:8080")
-        .then((response) => {
-            if (!response.ok) {
-              throw new Error(`HTTP error: ${response.status}`);
+    function second(checked) {
+        if(checked == false) {
+            twoD();
+        }
+        else {
+            threeD();
+        }
+        function threeD() {
+            console.log('hi');
+            ctx.fillStyle = "white";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        function twoD() {
+            console.log('2D');
+            function axes() {
+                ctx.strokeStyle="black";
+                ctx.beginPath();
+                // Axes
+                ctx.moveTo(120,0);ctx.lineTo(0,0);ctx.lineTo(0,120);
+                // Arrowheads
+                ctx.moveTo(110,5);ctx.lineTo(120,0);ctx.lineTo(110,-5);
+                ctx.moveTo(5,110);ctx.lineTo(0,120);ctx.lineTo(-5,110);
+                // X-label
+                ctx.moveTo(130,-5);ctx.lineTo(140,5);
+                ctx.moveTo(130,5);ctx.lineTo(140,-5);
+                // Y-label
+                ctx.moveTo(-5,130);ctx.lineTo(0,135);ctx.lineTo(5,130);
+                ctx.moveTo(0,135);ctx.lineTo(0,142);
+                
+                ctx.stroke();
             }
-            return response.json();
-        })
-        .then((json) => draw(json))
-        .catch((err) => console.error(`Fetch problem: ${err.message}`));
+            function fetchData() {
+                fetch("http://localhost:3000/http://localhost:8080")
+                .then((response) => {
+                    if (!response.ok) {
+                    throw new Error(`HTTP error: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then((json) => draw(json))
+                .catch((err) => console.error(`Fetch problem: ${err.message}`));
+            }
+            function draw(input) {
+                currX = input.x / 10
+                currY = input.y / 10
+                //currZ = input.z 
+                console.log(currX + " " + currY);
+
+                ctx.beginPath();
+                ctx.moveTo(prevX, prevY);
+                ctx.lineTo(currX, currY);
+                ctx.stroke();
+                ctx.closePath();
+
+                prevX = currX;
+                prevY = currY;
+                //prevZ = currZ;
+
+                link.href = save();
+                fetchData();
+            }
+            axes();
+            fetchData();     
+        }
     }
-
-    fetchData();
-
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
-    function draw(input) {
-
-        console.log(input);
-
-        currX = input.x
-        currY = input.y
-        currZ = input.z
-
-        ctx.beginPath();
-        ctx.moveTo(prevX, prevY);
-        ctx.lineTo(currX, currY);
-        ctx.stroke();
-        ctx.closePath();
-
-        prevX = currX;
-        prevY = currY;
-        prevZ = currZ;
-
-        link.href = save();
-
-        fetchData();
-
-    }
+    view.addEventListener('change', function() {
+        if (this.checked) {
+          console.log("Checkbox is checked..");
+        } else {
+          console.log("Checkbox is not checked..");
+        }
+      });
+    second(view.checked);
 }
     function erase() {
         var m = confirm("Want to clear");
@@ -72,10 +107,8 @@ function init() {
         }
     }
     
-    function save() {
-        
+    function save() {   
         var dataURL = canvas.toDataURL();
-        console.log(dataURL);
         return dataURL;
        
     }

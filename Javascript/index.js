@@ -1,6 +1,4 @@
 const http = require("http");
-const express = require('express');
-const app = express();
 const host = 'localhost';
 const port = 3000
 var cors_proxy = require('cors-anywhere');

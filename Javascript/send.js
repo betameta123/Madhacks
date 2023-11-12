@@ -11,7 +11,7 @@ const { ReadlineParser } = require('@serialport/parser-readline')
 const arduinoPort = new SerialPort({ path: PORT, baudRate: 9600 })
 console.log(port);
 
-var ret = {x: 0, y: 0, z: 0};
+var ret = {x: 0, y: 0};
 
 const parser = arduinoPort.pipe(new ReadlineParser({ delimiter: '\r\n' }))
 parser.on('data', dataToJson)
@@ -20,7 +20,7 @@ function dataToJson(data) {
     var inputArray = data.split(",");
     ret.x = inputArray[0]
     ret.y = inputArray[1]
-    ret.z = inputArray[2]
+    //ret.z = inputArray[2]
 }
 
 const requestListener = function (req, res) {
