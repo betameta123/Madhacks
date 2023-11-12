@@ -68,10 +68,10 @@ function init() {
             function draw(input) {
                 currX = input.x / 10
                 currY = input.y / 10
-                var draw = input.draw;
-                console.log(currX + " " + currY + " " + draw);
+                var d = input.draw;
+                console.log(currX + " " + currY + " " + d);
 
-                if(draw == 1) {
+                if(d == 1) {
                     ctx.beginPath();
                     ctx.moveTo(prevX, prevY);
                     ctx.lineTo(currX, currY);
